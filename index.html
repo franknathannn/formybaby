@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Letters For Ly</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            overflow-x: hidden;
+            background: #0f0f0f;
+        }
+
+        /* Floating Hearts Animation */
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            color: rgba(255, 105, 180, 0.6);
+            animation: floatHeart 15s infinite;
+            opacity: 0;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) rotate(0deg);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh) rotate(360deg);
+            }
+        }
+
+        /* Selection Screen - NOW WITH BLURRED BACKGROUND */
+        .selection-screen {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            position: relative;
+            overflow: hidden;
+            /* Background image with blur */
+            background-image: url('socute.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: scroll;
+            background-color: #0f0f0f;
+        }
+
+        /* Blur overlay for selection screen */
+        .selection-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 0;
+        }
+
+        /* Dots pattern overlay */
+        .selection-screen::after {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: drift 60s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes drift {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .selection-title {
+            font-size: 3.5rem;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-shadow: 0 0 30px rgba(255,255,255,0.3);
+            position: relative;
+            z-index: 1;
+            animation: fadeInDown 1s ease;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .selection-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.7);
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 1.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .letters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+            padding: 0 20px;
+        }
+
+        .letter-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 1s ease backwards;
+        }
+
+        .letter-card:nth-child(1) { animation-delay: 0.2s; }
+        .letter-card:nth-child(2) { animation-delay: 0.4s; }
+        .letter-card:nth-child(3) { animation-delay: 0.6s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .letter-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .letter-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .letter-card:hover::before {
+            opacity: 1;
+        }
+
+        .letter-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 20px currentColor);
+            transition: transform 0.4s ease;
+        }
+
+        .letter-card:hover .letter-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .letter-card:nth-child(1) .letter-icon { color: #ff6b6b; }
+        .letter-card:nth-child(2) .letter-icon { color: #4ecdc4; }
+        .letter-card:nth-child(3) .letter-icon { color: #ffe66d; }
+
+        .letter-card h2 {
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 10px;
+            font-weight: 400;
+            letter-spacing: 2px;
+        }
+
+        .letter-card p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Letter Screen */
+        .letter-screen {
+            display: none;
+            min-height: 100vh;
+            position: relative;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .letter-screen.active {
+            display: block;
+        }
+
+        /* Parallax Background */
+        .letter-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .letter-background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 1;
+        }
+
+        .letter-background img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.8);
+        }
+
+        /* Photo Gallery Sidebar - DESKTOP ONLY */
+        .photo-sidebar {
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 300px;
+            height: 100vh;
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            pointer-events: none;
+        }
+
+        .photo-frame {
+            flex: 1;
+            background-size: cover;
+            background-position: center;
+            border-left: 5px solid rgba(255, 255, 255, 0.3);
+            opacity: 0.7;
+            transition: all 0.5s ease;
+            position: relative;
+        }
+
+        .photo-frame::before {
+            content: '💕';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            opacity: 0.3;
+            animation: heartbeat 2s ease infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        .photo-frame:hover {
+            opacity: 1;
+            transform: scale(1.05);
+            z-index: 10;
+        }
+
+        /* Mobile sliding images - inserted every 5 paragraphs */
+       .mobile-image-slider {
+            display: none;
+            width: 100%;
+            height: 250px;
+            margin: 30px 0;
+            border-radius: 0;
+            overflow: hidden;
+            position: relative;
+            box-shadow: none;
+        }
+
+        .slider-track {
+            display: flex;
+            animation: slide 20s linear infinite;
+            height: 100%;
+            background: #0f0f0f;
+        }
+
+        .slider-image {
+            min-width: 100%;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            flex-shrink: 0;
+        }
+
+        @keyframes slide {
+            0% { transform: translateX(0); }
+            33.33% { transform: translateX(-100%); }
+            66.66% { transform: translateX(-200%); }
+            100% { transform: translateX(0); }
+        }
+
+        /* Scrollable Letter Content */
+        .letter-content-wrapper {
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 100px 20px;
+        }
+
+        .letter-content {
+            max-width: 700px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 50px 40px;
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.5);
+            position: relative;
+            animation: letterAppear 1s ease;
+            backdrop-filter: blur(10px);
+            border: 3px solid rgba(255, 182, 193, 0.5);
+        }
+
+        @keyframes letterAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* Decorative corners */
+        .letter-content::before,
+        .letter-content::after {
+            content: '💖';
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.6;
+            animation: pulse 2s ease infinite;
+        }
+
+        .letter-content::before {
+            top: -15px;
+            left: -15px;
+        }
+
+        .letter-content::after {
+            bottom: -15px;
+            right: -15px;
+        }
+
+        .letter-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 3px double #ff69b4;
+            position: relative;
+        }
+
+        .letter-header::after {
+            content: '♥';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 0 15px;
+            color: #ff69b4;
+            font-size: 1.5rem;
+        }
+
+        .letter-header h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.2);
+        }
+
+        .letter-date {
+            color: #7f8c8d;
+            font-size: 1rem;
+            font-style: italic;
+        }
+
+        .letter-body {
+            color: #2c3e50;
+            font-size: 1.15rem;
+            line-height: 2;
+            text-align: justify;
+            white-space: pre-wrap;
+            margin-bottom: 40px;
+            max-height: none;
+            overflow: visible;
+        }
+
+        .letter-signature {
+            text-align: right;
+            font-size: 1.3rem;
+            color: #34495e;
+            font-style: italic;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid rgba(255, 105, 180, 0.3);
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 999;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Georgia', serif;
+            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .back-button:hover {
+            transform: translateX(-5px) scale(1.05);
+            box-shadow: 0 8px 30px rgba(255, 107, 107, 0.6);
+        }
+
+        .back-button::before {
+            content: '←';
+            font-size: 1.3rem;
+        }
+
+        .music-controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 999;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 240, 245, 0.95) 100%);
+            border-radius: 50px;
+            padding: 15px 30px;
+            box-shadow: 0 10px 40px rgba(255, 105, 180, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 2px solid rgba(255, 105, 180, 0.3);
+        }
+
+        .music-icon {
+            font-size: 1.5rem;
+            animation: musicPulse 2s ease infinite;
+        }
+
+        @keyframes musicPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .music-button {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+            border: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+            font-family: Arial, sans-serif;
+        }
+
+        .music-button:hover {
+            transform: scale(1.15);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.5);
+        }
+
+        .volume-control {
+            width: 120px;
+            cursor: pointer;
+            accent-color: #ff6b6b;
+        }
+
+        .music-label {
+            font-size: 0.9rem;
+            color: #555;
+            font-weight: 600;
+        }
+
+        /* Sparkles Effect */
+        .sparkle {
+            position: fixed;
+            pointer-events: none;
+            animation: sparkleFloat 3s ease-out forwards;
+            z-index: 1001;
+        }
+
+        @keyframes sparkleFloat {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) scale(0);
+            }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .selection-title {
+                font-size: 2.5rem;
+            }
+
+            .letters-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .letter-content {
+                padding: 40px 25px;
+                border-radius: 15px;
+            }
+
+            .letter-header h1 {
+                font-size: 2rem;
+            }
+
+            .letter-body {
+                font-size: 1.05rem;
+                line-height: 1.8;
+            }
+
+            .back-button {
+                top: 15px;
+                left: 15px;
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+
+            .music-controls {
+                bottom: 15px;
+                padding: 12px 20px;
+                gap: 10px;
+                width: calc(100% - 30px);
+                max-width: 400px;
+            }
+
+            .volume-control {
+                width: 80px;
+            }
+
+            .music-label {
+                display: none;
+            }
+
+            /* HIDE desktop sidebar on mobile */
+            .photo-sidebar {
+                display: none;
+            }
+
+            /* SHOW mobile slider on mobile */
+            .mobile-image-slider {
+                display: block;
+            }
+
+            .letter-content-wrapper {
+                padding: 80px 15px 100px 15px;
+            }
+        }
+
+        /* COMMENTED OUT - Tabs Navigation Bar */
+        /*
+        .tabs {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10000;
+            display: flex;
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 10px;
+            border-radius: 50px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .tab-button {
+            padding: 12px 30px;
+            font-size: 1rem;
+            background: white;
+            border: 2px solid #ff6b6b;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Georgia', serif;
+            color: #ff6b6b;
+            font-weight: 600;
+        }
+
+        .tab-button:hover {
+            background: #ffe0e0;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+        */
+
+        /* COMMENTED OUT - Overview/Preview Styles */
+        /*
+        .overview-container {
+            background: linear-gradient(135deg, #fff5f7 0%, #ffe0e8 100%);
+            padding: 100px 20px 40px 20px;
+            min-height: 100vh;
+        }
+
+        .overview-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.2);
+        }
+
+        .overview-subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 50px;
+            font-size: 1.2rem;
+        }
+
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .preview-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(255, 105, 180, 0.2);
+            border: 3px solid rgba(255, 105, 180, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .preview-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .preview-card h3 {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.3rem;
+        }
+
+        .preview-image {
+            width: 100%;
+            height: 450px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+            text-align: center;
+            padding: 30px;
+            line-height: 1.8;
+        }
+
+        .instructions {
+            max-width: 900px;
+            margin: 60px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(255, 105, 180, 0.2);
+            border: 3px solid rgba(255, 105, 180, 0.3);
+        }
+
+        .instructions h3 {
+            color: #ff6b6b;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+        }
+
+        .instructions ol {
+            color: #555;
+            line-height: 2.2;
+            font-size: 1.1rem;
+        }
+
+        .instructions li {
+            margin-bottom: 15px;
+        }
+
+        .instructions code {
+            background: #ffe0e0;
+            padding: 3px 8px;
+            border-radius: 5px;
+            color: #ff6b6b;
+            font-family: 'Courier New', monospace;
+        }
+
+        .instructions ul {
+            margin-top: 10px;
+            margin-left: 20px;
+        }
+
+        .instructions strong {
+            color: #ff6b6b;
+        }
+
+        @media (max-width: 768px) {
+            .tabs {
+                top: 10px;
+                gap: 8px;
+                padding: 8px;
+            }
+
+            .tab-button {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+
+            .overview-container {
+                padding-top: 80px;
+            }
+
+            .overview-title {
+                font-size: 2rem;
+            }
+
+            .preview-image {
+                height: 350px;
+                font-size: 1rem;
+                padding: 20px;
+            }
+
+            .instructions {
+                padding: 30px 20px;
+            }
+
+            .instructions h3 {
+                font-size: 1.5rem;
+            }
+
+            .instructions ol {
+                font-size: 1rem;
+            }
+        }
+        */
+    </style>
+</head>
+<body>
+    <!-- Floating Hearts -->
+    <div class="hearts-container" id="heartsContainer"></div>
+
+    <!-- COMMENTED OUT - Tabs Navigation -->
+    <!-- 
+    <div class="tabs">
+        <button class="tab-button active" onclick="switchTab('app')">💌 Letters</button>
+        <button class="tab-button" onclick="switchTab('overview')">📸 Preview</button>
+    </div>
+    -->
+
+    <!-- App Tab - NOW ALWAYS VISIBLE -->
+    <div id="app-tab" class="tab-content active">
+        <!-- Selection Screen -->
+        <div class="selection-screen" id="selectionScreen">
+            <h1 class="selection-title">Letters for Ly 💕</h1>
+            <p class="selection-subtitle">Love Letters that I digitally made, it's made with my love bebe ;p</p>
+            <div class="letters-grid">
+                <div class="letter-card" onclick="openLetter(1)">
+                    <div class="letter-icon">💌</div>
+                    <h2>First Letter</h2>
+                    <p>Pag-Ibig ay Kanibalismo</p>
+                </div>
+                <div class="letter-card" onclick="openLetter(2)">
+                    <div class="letter-icon">💝</div>
+                    <h2>Second Letter</h2>
+                    <p>Kalapastangan</p>
+                </div>
+                <div class="letter-card" onclick="openLetter(3)">
+                    <div class="letter-icon">✉️</div>
+                    <h2>Third Letter</h2>
+                    <p>Iris</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Letter 1 -->
+        <div class="letter-screen" id="letter1">
+            <div class="letter-background">
+                <img src="SOCUTE.jpg" alt="Background" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22500%22%3E%3Crect fill=%22%23ff6b6b%22 width=%22400%22 height=%22500%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2220%22 fill=%22white%22%3EYour Photobooth.png%3C/text%3E%3Ctext x=%2250%25%22 y=%2260%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2216%22 fill=%22white%22%3Ewill appear here%3C/text%3E%3C/svg%3E'">
+            </div>
+            <div class="photo-sidebar">
+                <div class="photo-frame" style="background-image: url('SOCUTE.jpg');"></div>
+                <div class="photo-frame" style="background-image: url('SOCUTE.jpg');"></div>
+                <div class="photo-frame" style="background-image: url('SOCUTE.jpg');"></div>
+            </div>
+            <button class="back-button" onclick="goBack()">Back</button>
+            <div class="music-controls">
+                <span class="music-icon">🎵</span>
+                <button class="music-button" onclick="toggleMusic(1)" id="playBtn1">▶</button>
+                <span class="music-label">Pagibig Ay Kanibalismo</span>
+                <input type="range" class="volume-control" min="0" max="100" value="50" onchange="changeVolume(1, this.value)">
+            </div>
+            <div class="letter-content-wrapper">
+                <div class="letter-content">
+                    <div class="letter-header">
+                        <h1>My Dearest Ly ;p</h1>
+                        <p class="letter-date">Ibabalik kita, ng buong-buo.</p>
+                    </div>
+                    <div class="letter-body" id="letterBody1">First of all, I want to thank you for everything love love ko. For all of the endless efforts, for all of the endless love, endless comforts and endless gala & strolls! :)) Honestly, habang tumatagal I was actually losing my chance na I-continue to due to my lack of time.
+
+Pero still, I stayed right?! and you also stayed. Even though, nawawalan na ako ng pag-asa I still chose to stay with you, dahil isa din sa goal ko yung ibalik kita ng buong-buo, I also promised you that naman diba? :)) I'll heal you!! we'll get over the past traumas, the past pains, experience, the unexpected lusts that you do get from most of those guys na nakikilala at nakakausap mo.
+
+Baby, nung pinalayo kita.. I was struggling na sagutin yung tanong mo na "Babalik ka?", "Pero babalik ka?".
+
+Honestly, noon hindi pa clear yung sagot ko, punong-puno ako ng pagdududa—punong-puno ng kaguluhan yung isip ko, pero right now.. I have a clear answer na... If you were to ask me again patungkol don, i will answer it loudly, buo ang puso ko, buo ang isipan at buo ang kaluluwa ko—I will come back to you, at wala akong ibang uuwian kundi ikaw, hindi dahil ikaw lang yung mayroon ako—dahil ikaw lang yung mahal ko, at nagpakita sakin na karapat-dapat pa akong mabuhay sa mundong 'to.
+
+Alam mo, while writing this naiiyak na kaagad ako, even though first letter palang 'to. You don't know how much ka kahalaga sa puso ko, I would fight for you, papanindigan kita, I will commit sayo, I WILL DO EVERYTHING PARA SAYO, PARA SAATIN AT PARA SA IKABUBUTI NG ISA'T ISA. Which is why I always care about your academics, dahil mahal kita. kaya nga diba "Ibabalik kita ng buong-buo, pangako yan sayo". It means that I WILL BRING YOU AS A WHOLE, hindi lang for love, but also for our own growth, for our own happiness, improvement and for our own achievements.
+
+Ly, I'm hoping na you wont cheat on me, At some point ikaw nalang naman din ang mayroon ako eh, hahaha.. So please, panindigan mo din yung sinabi mo :( it would be hard sa part ko na mawawala ka, na mawawala yung taong mahal ko. Yung taong nandyan para ipamukha sakin na hindi cruel ang mundo—at may nakakaintindi sakin.
+
+At some point, this is the only thing that I could do at the moment, so please have some patience sa ginawa kong letter na ganito, sooner or later I will make sure na I'll give you what you want and the things that you deserve :)) if only may makahihigit sa salitang "Mahal Kita", araw-araw ko 'yon gagamitin, dahil mas higit pa yung pagmamahal na gusto kong ipahiwatig kaysa sa salita :))
+
+I'm so lucky to have someone like you Ly, I am so happy having someone sooooo kind, pretty, gorgeous anddd SOOOO SO SOOOOOO MAGANDA NA GF NA KATULADDDDD MO! LALO NA WHEN YOU SMILE AND MAAYOS YUNG SUOT MO?!!! MY HEART WOULD LITERALLY MELT, NAGMEMELT NA NGA 'TO SA UGALI MO, PAANO PA KAYA SA LOOKSSSSSS MO, EDI DEDS NAKO NETO JDHSAYXSYADGSAHUDSA I LOVE YOU SO MUCHHHH BABY KOOOOOOOOO!! 
+
+PLEASE DON'T LEAVE ME, PAG TINANGGAL KA NILA SAKIN AT MAY KUMUHA SAYO—IIYAK AKO PALAGI, ALWAYS KITANG MAMIMISS AT HAHANAPIN :(( HINDI KO DIN KAYANG TIISIN THAT YOU'LL BE GONE SA TABI KO BEBE ;CC I love you so soooo muchhh, MWUAH MWUAH MWUAH MWUAH MWUAHHHH
+
+- 5 MWUAHS, BECAUSE IT MEANSSSSSSSS
+
+1. I
+2. LOVE
+3. YOU
+4. SO
+5. MUCH!
+
+<!-- Mobile slider - appears every 5 paragraphs -->
+<div class="mobile-image-slider">
+    <div class="slider-track">
+        <div class="slider-image" style="background-image: url('SOCUTE.jpg');"></div>
+        <div class="slider-image" style="background-image: url('SOCUTE.jpg');"></div>
+        <div class="slider-image" style="background-image: url('SOCUTE.jpg');"></div>
+    </div>
+</div>
+
+Next Letter naman tayo baby? ;ppp DALII! I LOVE YOUUU
+
+Forever yours,
+With all my heart</div>
+                    <div class="letter-signature">Your Nathan 💕</div>
+                </div>
+            </div>
+            <audio id="audio1" loop>
+                <source src="Pag-Ibig ay Kanibalismo.mp3" type="audio/mpeg">
+            </audio>
+        </div>
+
+        <!-- Letter 2 -->
+        <div class="letter-screen" id="letter2">
+            <div class="letter-background">
+                <img src="Photobooth.jpg" alt="Background" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22500%22%3E%3Crect fill=%22%234ecdc4%22 width=%22400%22 height=%22500%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2220%22 fill=%22white%22%3EYour Photobooth.png%3C/text%3E%3Ctext x=%2250%25%22 y=%2260%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2216%22 fill=%22white%22%3Ewill appear here%3C/text%3E%3C/svg%3E'">
+            </div>
+            <div class="photo-sidebar">
+                <div class="photo-frame" style="background-image: url('Photobooth.jpg');"></div>
+                <div class="photo-frame" style="background-image: url('Photobooth.jpg');"></div>
+                <div class="photo-frame" style="background-image: url('Photobooth.jpg');"></div>
+            </div>
+            <button class="back-button" onclick="goBack()">Back</button>
+            <div class="music-controls">
+                <span class="music-icon">🎵</span>
+                <button class="music-button" onclick="toggleMusic(2)" id="playBtn2">▶</button>
+                <span class="music-label">Kalapastangan</span>
+                <input type="range" class="volume-control" min="0" max="100" value="50" onchange="changeVolume(2, this.value)">
+            </div>
+            <div class="letter-content-wrapper">
+                <div class="letter-content">
+                    <div class="letter-header">
+                        <h1>To My Safe Space,</h1>
+                        <p class="letter-date">Kung ang Mundo ay biglang gugunawin, Ikaw ang una kong hahanapin.</p>
+                    </div>
+                    <div class="letter-body" id="letterBody2">You may not like this song, pero I love this one. Especially the chorus.
+First and Foremost, I want to tell you that I am always so proud of you and your name. You are the most precious girl I've ever met, super sincere, super soft and sooooo soooo PRETTY TALAGA, ALWAYS! HINDI MAWAWALA YAN.
+
+Honestly love, I'm struggling nga eh, I feel like hindi mo ako deserve. I feel like nobody deserves me at all, pero at some point—pinapamukha mo sakin na you deserve me at all, kaya nanghahawak ako na you do deserve me too and magpapakabetter na din ako para sayo.
+
+I'm sorry if sometimes, nangingialam ako when it comes to your problems, it's just that mahal kita eh :(( I want to learn everything from you, gusto kong magstand-up para sayo, gusto kitang ipaglaban, gusto kitang tulungan. Not because nagpapakitang-gilas ako, but because you're my baby, you're my love, my safe space, my home and my rest. Which is why, I won't let anybody ruin it, lalo na ng mga issue na yan.
+
+I know you've been stressed and drained lately, so please let me hold you for awhile, let me be your crying shoulders. Not most of the time, ikaw lang yung gagawa ng efforts, let me also do it for you. I am your boyfriend Ly, let me act like one. I'll spoil you no worries, I'll bawi sayo I promise and I'll love you AS ALWAYSSS! MWUAHHH MWUAH MWUAH MWUAH MWAUH!!
+
+please, when everything gets hard always run back towards me. Kasi it hurts me kapag hindi kita napapangiti, lalo na din kapag wala ka saking tabi and you're struggling alone?! it hurts me so much kaya huhu, the guilt inside my heart haunts me kapag nahihirapan ka. There are also times na nagrarant ka sakin and sobrang konti lang ng comment ko, im so sorry for it love love, I always listen naman sayo ;cc it's just that ayoko na masyadong pag-usapan yung problema mo. I don't want to trigger it and I don't want it na lumala pa kaya iniiba ko din minsan yung topic. I always smile and laugh din, kasi diba ;pp habang-buhay akong nagsisisi, kapag isang araw—hindi kita napapangiti ;pp TAMOO!! MATCH SA EXPLANATION KO YUNG KANTAAA, and yes.. It's true, I always change the topic and mostly funny ones kasi I always want to libang you instead of palalain pa yung problema ;cc I don't want you na damdamin yung nararamdaman mo, I want you to smile, be happy and find your comfort zone, your peace and happiness towards me. It may look careless, pero it's my approach when it comes to showing that I care for you baby.
+
+I love you so much baby ko.
+
+Baby, I love you owkay? SOW SOW MUCH. So please, if ever man na naiyak ka gabi-gabi, if pinagdududahan mo yung sarili mo, please always mong tandaan na you're always the best lalong-lalo na sa paningin ko. No need to overthink baby, I'll always choose you no matter what happens. I'll always love you no matter what happens, basta just be yourself ah? :))
+
+Baby, if ever na i-backread mo to dahil naiyak ka, please tahan na. I don't want to seeeeee you cryyy, nako-nako—I'll get mad sayo nakooooo, okay? so tahan na baby. I love you sow much, ill hug u nalang owkay?
+
+DON'T CRY NA ALWAYS OWKAY BABY? PLEASE PLEASEEEEEEEEE!! alam kong may mabigat kang kinikimkim, alam kong may mabibigat kang pinagdadaanan pero hindi ako mawawala sa tabi mo love love ko ;(( YOU KNOW NAMAN NA IKAW NALANG MERON AKO IHHHHHH SO, INSTEAD OF CRYINGGGGG JUST TELL IT TO ME OWKAY?! PAG-USAPAN NAITN LAHATTTT!
+
+                
+
+<!-- Mobile slider - appears every 5 paragraphs -->
+<div class="mobile-image-slider">
+    <div class="slider-track">
+        <div class="slider-image" style="background-image: url('Photobooth.jpg');"></div>
+        <div class="slider-image" style="background-image: url('Photobooth.jpg');"></div>
+        <div class="slider-image" style="background-image: url('Photobooth.jpg');"></div>
+    </div>
+</div>
+
+With deepest love & care,
+Sincerely</div>
+                    <div class="letter-signature">Yours Natnat ;p</div>
+                </div>
+            </div>
+            <audio id="audio2" loop>
+                <source src="Kalapastangan.mp3" type="audio/mpeg">
+            </audio>
+        </div>
+
+        <!-- Letter 3 -->
+        <div class="letter-screen" id="letter3">
+            <div class="letter-background">
+                <img src="Photobooth.jpg" alt="Background" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22500%22%3E%3Crect fill=%22%23ffe66d%22 width=%22400%22 height=%22500%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2220%22 fill=%22white%22%3EYour Photobooth.png%3C/text%3E%3Ctext x=%2250%25%22 y=%2260%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2216%22 fill=%22white%22%3Ewill appear here%3C/text%3E%3C/svg%3E'">
+            </div>
+            <div class="photo-sidebar">
+                <div class="photo-frame" style="background-image: url('Photobooth.jpg');"></div>
+                <div class="photo-frame" style="background-image: url('SOCUTE.jpg');"></div>
+                <div class="photo-frame" style="background-image: url('Photobooth.jpg');"></div>
+            </div>
+            <button class="back-button" onclick="goBack()">Back</button>
+            <div class="music-controls">
+                <span class="music-icon">🎵</span>
+                <button class="music-button" onclick="toggleMusic(3)" id="playBtn3">▶</button>
+                <span class="music-label">Iris</span>
+                <input type="range" class="volume-control" min="0" max="100" value="50" onchange="changeVolume(3, this.value)">
+            </div>
+            <div class="letter-content-wrapper">
+                <div class="letter-content">
+                    <div class="letter-header">
+                        <h1>My Everything,</h1>
+                        <p class="letter-date">And I'd give up forever to touch you</p>
+                    </div>
+                    <div class="letter-body" id="letterBody3">Let's go full english mode ;p I never knew what completeness felt like until I found you.
+
+You see me—truly see me—in ways no one else ever has, you've made efforts, bought me foods, flowers, and etcs ;( Behind all the masks I wear for the world, you found the real me and loved that person unconditionally.
+
+This photograph we took together isn't just a memory. It's a patotoo sa love that we shared, the bond we've built, the future we're creating together.
+
+I want you to know that the world isn't perfect, but I also want you to know that you're my perfect in this imperfect world ;pp eyy! sheesh HDYSAHDYSHDA I LOVE YOU!.
+
+When everything feels like it's falling apart, you're the one thing that makes sense.
+
+It's so crazy and unexpected noh? we really did end up together hehe, well I know na madaming masasabi yung ibang tao dyan. Pero please ignore them, if may masabi man sila na nag-abang ka, fuck them all. What matters the most for me is I found someone na nakakaintindi sakin at kaya akong mahalin sa kung sino ako at kaya ko din siyang mahalin sa kung sino siya.
+
+Lastly, please don't get affected sa mga sasabihin ng ibang tao saatin, if ever man na magkaconflict or problems tayo, please let's talk about it gently, softly, walang mura and sigawan :)) we'll handle everything with love and comfort. I love you so much baby, no leaving na ah? :)) please pleaseeee NO CHEAITNGGGG!! I HATEEE THATTT KAYAAAAAAAA. hehe, YOU KNOW BA BABY, I ALWAYS MISS YOUUUU KAYA I ALSO DEDICATED IRIS KASI SOBRANG DEEP NG MEANING NITO. 
+
+It actually matches our love story, "a deep desire to be cherished and truly seen by someone" is the meaning of iris. Patunay naman na tayo that we do cherish and truly see each other without judgements and just pure love, despite our flaws, insecurities, impurities we still managed to cherish and accept eachother. We still comforted each other about our own unique beautiness and kapogian, eheh RIGHT?! ;PP WE CAN RELATEEE SA IRISSSS BABYYYY KOOOOOOOOOOO!
+
+DYSGDSYADSHA NAKO, I HAVE NOTHING TO SAY NA. I'M SPEECHLESS ;PPP I LOVE YA BABY KOOOO, DON'T WORRY! BABAWI AKO SAYO AND YOU'LL SEE THE BEST OF ME SOONER OR LATERRRR, NAGCHACHARGE PA SI SELF KAYA RELAX LANG MWUAH MWAUH MWUAH MWAUH MWAUAH!.
+
+<!-- Mobile slider - appears every 5 paragraphs -->
+<div class="mobile-image-slider">
+    <div class="slider-track">
+        <div class="slider-image" style="background-image: url('SOCUTE.jpg');"></div>
+        <div class="slider-image" style="background-image: url('Photobooth.jpg');"></div>
+        <div class="slider-image" style="background-image: url('SOCUTE.jpg');"></div>
+    </div>
+</div>
+
+I don't want the world to see me, because all I want is for you to know me
+
+^ that means na I don't want na magpasikat pa sa iba, since all I want all along is mapansin mo lang ako and makilala mo ako ;cc kaya ever since nung nag usap nga tayo, i've been so quiet na diba? hehe.
+
+Forever and always,
+Your Soulmate</div>
+                    <div class="letter-signature">Endlessly Yours Nathan, NatNat, Frank, Love💗</div>
+                </div>
+            </div>
+            <audio id="audio3" loop>
+                <source src="Iris.mp3" type="audio/mpeg">
+            </audio>
+        </div>
+    </div>
+
+    <!-- COMMENTED OUT - Overview Tab -->
+    <!-- 
+    <div id="overview-tab" class="tab-content">
+        <div class="overview-container">
+            <h2 class="overview-title">Design Preview 💕</h2>
+            <p class="overview-subtitle">See how your photobooth image will appear in each letter</p>
+            <div class="preview-grid">
+                <div class="preview-card">
+                    <h3>💌 Letter One</h3>
+                    <div class="preview-image">
+                        <div>
+                            <strong>Features:</strong><br><br>
+                            📸 Full-screen photobooth background<br>
+                            🎵 "Pagibig Ay Kanibalismo" playing<br>
+                            💕 Floating hearts animation<br>
+                            📱 Photo sidebar (3 repeating images)<br>
+                            ✨ Sparkle effects on scroll<br>
+                            📜 Scrollable for long letters<br>
+                            🎨 Pink/Red romantic theme
+                        </div>
+                    </div>
+                </div>
+                <div class="preview-card">
+                    <h3>💝 Letter Two</h3>
+                    <div class="preview-image" style="background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);">
+                        <div>
+                            <strong>Features:</strong><br><br>
+                            📸 Full-screen photobooth background<br>
+                            🎵 "Kalapastangan" playing<br>
+                            💕 Floating hearts animation<br>
+                            📱 Photo sidebar (3 repeating images)<br>
+                            ✨ Sparkle effects on scroll<br>
+                            📜 Scrollable for long letters<br>
+                            🎨 Teal/Turquoise theme
+                        </div>
+                    </div>
+                </div>
+                <div class="preview-card">
+                    <h3>✉️ Letter Three</h3>
+                    <div class="preview-image" style="background: linear-gradient(135deg, #ffe66d 0%, #ffd93d 100%);">
+                        <div>
+                            <strong>Features:</strong><br><br>
+                            📸 Full-screen photobooth background<br>
+                            🎵 "Iris" playing<br>
+                            💕 Floating hearts animation<br>
+                            📱 Photo sidebar (3 repeating images)<br>
+                            ✨ Sparkle effects on scroll<br>
+                            📜 Scrollable for long letters<br>
+                            🎨 Golden/Yellow warm theme
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="instructions">
+                <h3>📝 How to Customize Your Letters</h3>
+                <ol>
+                    <li>
+                        <strong>Edit Letter Content:</strong> Find these sections in the code:
+                        <ul>
+                            <li><code>&lt;div class="letter-body" id="letterBody1"&gt;</code> - Edit Letter 1 text</li>
+                            <li><code>&lt;div class="letter-body" id="letterBody2"&gt;</code> - Edit Letter 2 text</li>
+                            <li><code>&lt;div class="letter-body" id="letterBody3"&gt;</code> - Edit Letter 3 text</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Create Line Breaks:</strong> Simply press "Enter" in the code to create new lines. Every enter = new line in the letter! ✨
+                    </li>
+                    <li>
+                        <strong>Super Long Letters:</strong> No worries! The letter scrolls automatically. Write as much as you want - 100 lines, 1000 lines, anything! 📜
+                    </li>
+                    <li>
+                        <strong>Add Your Files:</strong> Place these in the same folder:
+                        <ul>
+                            <li><strong>Photobooth.png</strong> (your photobooth picture)</li>
+                            <li><strong>Pagibig_Ay_Kanibalismo.mp3</strong></li>
+                            <li><strong>Kalapastangan.mp3</strong></li>
+                            <li><strong>Iris.mp3</strong></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Mobile Perfect:</strong> 100% responsive! Works beautifully on phones, tablets, and desktops 📱💻
+                    </li>
+                    <li>
+                        <strong>Interactive Features:</strong>
+                        <ul>
+                            <li>💕 Floating hearts everywhere</li>
+                            <li>✨ Sparkle effects when you scroll</li>
+                            <li>🎵 Music controls with play/pause and volume</li>
+                            <li>📸 Photo sidebar showing your picture 3 times</li>
+                            <li>🖼️ Full background image always visible</li>
+                            <li>💖 Heart decorations and animations</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    -->
+
+    <script>
+        let currentAudio = null;
+        let currentLetter = 0;
+
+        // Create floating hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.textContent = ['💕', '💖', '💗', '💓', '💝', '❤️', '💘'][Math.floor(Math.random() * 7)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            document.getElementById('heartsContainer').appendChild(heart);
+
+            setTimeout(() => heart.remove(), 20000);
+        }
+
+        // Create hearts periodically
+        setInterval(createHeart, 800);
+        for (let i = 0; i < 10; i++) {
+            setTimeout(createHeart, i * 300);
+        }
+
+        // Create sparkles on scroll
+        function createSparkle(x, y) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.textContent = ['✨', '⭐', '🌟', '💫'][Math.floor(Math.random() * 4)];
+            sparkle.style.left = x + 'px';
+            sparkle.style.top = y + 'px';
+            sparkle.style.fontSize = (Math.random() * 15 + 10) + 'px';
+            document.body.appendChild(sparkle);
+
+            setTimeout(() => sparkle.remove(), 3000);
+        }
+
+        let scrollTimeout;
+        document.addEventListener('scroll', (e) => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                if (currentLetter > 0) {
+                    const x = Math.random() * window.innerWidth;
+                    const y = window.scrollY + Math.random() * window.innerHeight;
+                    createSparkle(x, y);
+                }
+            }, 100);
+        });
+
+        // COMMENTED OUT - Tab switching function (no longer needed)
+        /*
+        function switchTab(tab) {
+            const tabs = document.querySelectorAll('.tab-content');
+            const buttons = document.querySelectorAll('.tab-button');
+            
+            tabs.forEach(t => t.classList.remove('active'));
+            buttons.forEach(b => b.classList.remove('active'));
+            
+            if (tab === 'app') {
+                document.getElementById('app-tab').classList.add('active');
+                buttons[0].classList.add('active');
+            } else {
+                document.getElementById('overview-tab').classList.add('active');
+                buttons[1].classList.add('active');
+            }
+        }
+        */
+
+        function openLetter(letterNum) {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            }
+
+            document.getElementById('selectionScreen').style.display = 'none';
+            document.getElementById('letter' + letterNum).classList.add('active');
+            currentLetter = letterNum;
+
+            currentAudio = document.getElementById('audio' + letterNum);
+            currentAudio.volume = 0.5;
+
+            // Create extra sparkles on letter open
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    createSparkle(Math.random() * window.innerWidth, Math.random() * window.innerHeight);
+                }, i * 100);
+            }
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        function goBack() {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+                document.getElementById('playBtn' + currentLetter).textContent = '▶';
+            }
+
+            document.querySelectorAll('.letter-screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+
+            document.getElementById('selectionScreen').style.display = 'flex';
+            currentLetter = 0;
+            window.scrollTo(0, 0);
+        }
+
+        function toggleMusic(letterNum) {
+            const audio = document.getElementById('audio' + letterNum);
+            const playBtn = document.getElementById('playBtn' + letterNum);
+
+            if (audio.paused) {
+                audio.play();
+                playBtn.textContent = '❚❚';
+            } else {
+                audio.pause();
+                playBtn.textContent = '▶';
+            }
+        }
+
+        function changeVolume(letterNum, value) {
+            const audio = document.getElementById('audio' + letterNum);
+            audio.volume = value / 100;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const audios = document.querySelectorAll('audio');
+            audios.forEach(audio => {
+                audio.preload = 'auto';
+            });
+        });
+    </script>
+</body>
+</html>
